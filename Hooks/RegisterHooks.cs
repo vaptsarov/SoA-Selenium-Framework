@@ -8,10 +8,12 @@ namespace SeleniumFramework.Hooks
     public class RegisterHooks
     {
         private readonly IWebDriver _driver;
+        private readonly UserOperations _userOperations;
 
-        public RegisterHooks(IWebDriver webDriver)
+        public RegisterHooks(IWebDriver webDriver, UserOperations userOperations)
         {
             this._driver = webDriver;
+            this._userOperations = userOperations;
         }
 
         [AfterScenario]
@@ -23,7 +25,7 @@ namespace SeleniumFramework.Hooks
         [AfterScenario(Order = 9999)]
         public void DeleteCurrentUser()
         {
-            //_userOperations.DeleteUserWithEmail("idimitrov@automation.com");
+            _userOperations.DeleteUserWithEmail("idimitrov@automation.com");
         }
     }
 }

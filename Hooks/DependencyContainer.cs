@@ -1,5 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using MySqlConnector;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
@@ -50,7 +50,7 @@ namespace SeleniumFramework.Hooks
                 var settings = sp.GetRequiredService<SettingsModel>();
                 var connectionString = settings.ConnectionString;
 
-                var dbConnection = new SqlConnection(connectionString);
+                var dbConnection = new MySqlConnection(connectionString);
                 return dbConnection;
             });
 

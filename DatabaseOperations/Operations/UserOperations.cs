@@ -24,6 +24,8 @@ namespace SeleniumFramework.DatabaseOperations.Operations
         {
             this._connection?.Close();
             this._connection?.Dispose();
+
+            GC.SuppressFinalize(this);
         }
     }
 }

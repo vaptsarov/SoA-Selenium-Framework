@@ -5,7 +5,7 @@
         public static string DeleteUserByEmail(string email)
         {
             return $@"
-                DELETE FROM Users
+                DELETE FROM users
                 WHERE Email = '{email}';
             ";
         }
