@@ -2,7 +2,7 @@
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.WaitHelpers;
 
-namespace SeleniumFramework.Extensions
+namespace SeleniumFramework.Utilities.Extensions
 {
     public static class WebDriverExtensions
     {
@@ -28,6 +28,14 @@ namespace SeleniumFramework.Extensions
         {
             driver.ScrollToElement(element);
             element.Click();
+        }
+
+        public static void ScrollToElementAndSendText(this IWebDriver driver, IWebElement element, string text)
+        {
+            driver.ScrollToElement(element);
+
+            element.Clear();
+            element.SendKeys(text);
         }
 
         private static WebDriverWait WaitForPredicate(this IWebDriver driver, int timeoutInSeconds = 10)

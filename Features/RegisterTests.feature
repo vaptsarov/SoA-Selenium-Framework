@@ -1,10 +1,11 @@
 ﻿Feature: RegisterTests
 
-A short summary of the feature
+As a user i would like to be able to register when visiting the page for the first time and to be able to 
+login with the created credentials.
 
-@tag1
+@DeleteRegisteredUser
 Scenario: Verify user is able to register successfully
-	Given I register new user with valid details
-	And I login with the created user
-	When [action]
-	Then [outcome]
+	Given I navigate to the main page
+	And I register new user with valid details
+	Then I should see the created user is logged successfully
+	And I should be able to logout successfully

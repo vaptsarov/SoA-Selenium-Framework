@@ -1,19 +1,16 @@
 ﻿using OpenQA.Selenium;
-using SeleniumFramework.Extensions;
+using SeleniumFramework.Utilities.Extensions;
 
 namespace SeleniumFramework.Pages
 {
-    public class DashboardPage
+    public class DashboardPage : BasePage
     {
-        private readonly IWebDriver _driver;
-
         private IWebElement LoggedUserAnchor => _driver.FindElement(By.XPath("//a[@id='navbarDropdown']"));
         private IWebElement UsernameHeader => _driver.FindElement(By.XPath("//div[contains(@class, 'container-fluid')]/h1"));
         private IWebElement LogoutButton => _driver.FindElement(By.XPath("//a[text()=' Logout']"));
 
-        public DashboardPage(IWebDriver driver)
+        public DashboardPage(IWebDriver driver) : base(driver)
         {
-            this._driver = driver;
         }
 
         public void Logout()
@@ -34,7 +31,7 @@ namespace SeleniumFramework.Pages
         public void VerifyUsernameIs(string username)
         { 
             string headerText = this.UsernameHeader.Text.Trim();
-            Assert.That(headerText.Contains(username), Is.True);
+            Assert.That(headerText, Does.Contain(username));
         }
     }
 }

@@ -5,6 +5,8 @@ using OpenQA.Selenium.Chrome;
 using Reqnroll.Microsoft.Extensions.DependencyInjection;
 using SeleniumFramework.DatabaseOperations.Operations;
 using SeleniumFramework.Models;
+using SeleniumFramework.Models.Builders;
+using SeleniumFramework.Models.Factories;
 using SeleniumFramework.Pages;
 using SeleniumFramework.Utilities;
 using System.Data;
@@ -33,18 +35,17 @@ namespace SeleniumFramework.Hooks
                 return driver;
             });
 
-            services.AddScoped(sp =>
-            {
-                var driver = sp.GetRequiredService<IWebDriver>();
-                return new LoginPage(driver);
-            });
+            services.AddSingleton<IUserFactory, UserFactory>();
+            services.AddScoped<UserBuilder>();
 
-            services.AddScoped(sp =>
-            {
-                var driver = sp.GetRequiredService<IWebDriver>();
-                return new DashboardPage(driver);
-            });
+            RegisterPages(services);
+            RegisterDatabaseOperations(services);
 
+            return services;
+        }
+
+        private static void RegisterDatabaseOperations(ServiceCollection services)
+        {
             services.AddScoped<IDbConnection>(sp =>
             {
                 var settings = sp.GetRequiredService<SettingsModel>();
@@ -59,8 +60,27 @@ namespace SeleniumFramework.Hooks
                 var dbConnection = sp.GetRequiredService<IDbConnection>();
                 return new UserOperations(dbConnection);
             });
+        }
 
-            return services;
+        private static void RegisterPages(ServiceCollection services)
+        {
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new LoginPage(driver);
+            });
+
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new DashboardPage(driver);
+            });
+
+            services.AddScoped(sp =>
+            {
+                var driver = sp.GetRequiredService<IWebDriver>();
+                return new RegisterUserPage(driver);
+            });
         }
     }
 }

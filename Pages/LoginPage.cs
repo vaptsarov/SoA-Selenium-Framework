@@ -1,20 +1,18 @@
 ﻿using OpenQA.Selenium;
-using SeleniumFramework.Extensions;
+using SeleniumFramework.Utilities.Extensions;
 
 namespace SeleniumFramework.Pages
 {
-    public class LoginPage
+    public class LoginPage : BasePage
     {
-        private readonly IWebDriver _driver;
-
         // Elements 
         private IWebElement EmailInput => _driver.FindElement(By.XPath("//input[@type='email']"));
         private IWebElement PasswordInput => _driver.FindElement(By.XPath("//input[@type='password']"));
         private IWebElement SubmitButton => _driver.FindElement(By.XPath("//button[@type='submit' and contains(text(), 'Sign In')]"));
+        private IWebElement RegisterNewUserButton => _driver.FindElement(By.XPath("//a[@href='register.php']"));
 
-        public LoginPage(IWebDriver driver)
+        public LoginPage(IWebDriver driver) : base(driver)
         {
-            this._driver = driver;
         }
 
         // Actions
@@ -26,9 +24,9 @@ namespace SeleniumFramework.Pages
             _driver.ScrollToElementAndClick(this.SubmitButton);
         }
 
-        public bool IsPasswordEmpty()
+        public void ClickRegisterNewUser()
         {
-            return string.IsNullOrEmpty(PasswordInput.GetAttribute("value"));
+            _driver.ScrollToElementAndClick(this.RegisterNewUserButton);
         }
 
         // Validations
@@ -36,6 +34,11 @@ namespace SeleniumFramework.Pages
         {
             string? text = PasswordInput.GetAttribute("value");
             Assert.That(text, Is.EqualTo(string.Empty));
+        }
+
+        public bool IsPasswordEmpty()
+        {
+            return string.IsNullOrEmpty(PasswordInput.GetAttribute("value"));
         }
 
         public void VerifyErrorMessageIsDisplayed(string errorMessage)
